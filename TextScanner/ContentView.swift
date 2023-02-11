@@ -8,9 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var vm: AppViewModel
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        switch vm.dataScannerAccessStatus {
+        case .scannerAvailable:
+            Text("Scanner is available")
+        case .cameraNotAvailable:
+            Text("Could not detect a camera")
+        case .scannerNotAvailable:
+            Text("Your device does not have support for LiveText")
+        case .cameraAccessNotGranted:
+            Text("Please allow TextScanner to access your camera in settings")
+        case .notDetermined:
+            Text("Requesting camera access")
+        }
     }
 }
 

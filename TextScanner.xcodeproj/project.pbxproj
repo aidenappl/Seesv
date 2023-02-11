@@ -11,6 +11,7 @@
 		E7123B56299757180023FDC3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7123B55299757180023FDC3 /* ContentView.swift */; };
 		E7123B582997571A0023FDC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7123B572997571A0023FDC3 /* Assets.xcassets */; };
 		E7123B5B2997571A0023FDC3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7123B5A2997571A0023FDC3 /* Preview Assets.xcassets */; };
+		E7123B62299757830023FDC3 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7123B61299757830023FDC3 /* AppViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		E7123B55299757180023FDC3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E7123B572997571A0023FDC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7123B5A2997571A0023FDC3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E7123B61299757830023FDC3 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				E7123B53299757180023FDC3 /* TextScannerApp.swift */,
+				E7123B61299757830023FDC3 /* AppViewModel.swift */,
 				E7123B55299757180023FDC3 /* ContentView.swift */,
 				E7123B572997571A0023FDC3 /* Assets.xcassets */,
 				E7123B592997571A0023FDC3 /* Preview Content */,
@@ -139,6 +142,7 @@
 			files = (
 				E7123B56299757180023FDC3 /* ContentView.swift in Sources */,
 				E7123B54299757180023FDC3 /* TextScannerApp.swift in Sources */,
+				E7123B62299757830023FDC3 /* AppViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +276,7 @@
 				DEVELOPMENT_TEAM = DZDMD5U55G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) wants to use the camera to scan text";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -301,6 +306,7 @@
 				DEVELOPMENT_TEAM = DZDMD5U55G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) wants to use the camera to scan text";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
