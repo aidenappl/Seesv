@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import VisionKit
 
-enum ScanType {
+enum ScanType: String {
     case barcode, text
 }
 
@@ -27,7 +27,7 @@ final class AppViewModel: ObservableObject {
     
     @Published var dataScannerAccessStatus: DataScannerAccessStatusType = .notDetermined
     @Published var recognizedItems: [RecognizedItem] = []
-    @Published var scanType: ScanType = .barcode
+    @Published var scanType: ScanType = .text
     @Published var textContentType: DataScannerViewController.TextContentType?
     @Published var recognizesMultipleItems: Bool = true
     
@@ -35,6 +35,24 @@ final class AppViewModel: ObservableObject {
        get {scanType == .barcode ? .barcode() :
            .text(textContentType: textContentType)}
        set {}
+    }
+    
+    var headerText: String {
+        if recognizedItems.isEmpty {
+            return "Scanning \(scanType.rawValue)"
+        } else {
+            return "Recognized \(recognizedItems.count) items"
+        }
+    }
+    
+    var dataScannerViewId: Int {
+        var hasher = Hasher()
+        hasher.combine(scanType)
+        hasher.combine(recognizesMultipleItems)
+        if let textContentType {
+            hasher.combine(textContentType)
+        }
+        return hasher.finalize()
     }
     
     private var isScannerAvailable: Bool {
