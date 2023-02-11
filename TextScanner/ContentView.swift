@@ -55,7 +55,13 @@ struct ContentView: View {
                             case .barcode(let barcode):
                                 Text(barcode.payloadStringValue ?? "Unknown barcode")
                             case .text(let text):
-                                Text(text.transcript)
+                                if text.transcript.contains("Serial") {
+                                    let serial = String(text.transcript.split(separator: "Serial")[1].trimmingCharacters(in: .whitespaces))
+                                    Text("DisDaSerial: \(serial)")
+                                } else {
+                                    Text(text.transcript)
+                                }
+
                                 
                             @unknown default:
                                 Text("Unknown")
