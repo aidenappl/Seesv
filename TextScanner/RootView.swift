@@ -18,7 +18,7 @@ struct RootView: View {
 
     var body: some View {
         TabView(selection: $selectedItem) {
-            Text("Bananas 🍌🍌")
+            Text("Manage Datasets")
                 .tabItem {
                     Image(systemName: "plus.square")
                 }
@@ -31,7 +31,7 @@ struct RootView: View {
                 }
                 .tag(TabItem.preview)
 
-            Text("Peaches 🍑🍑")
+            Text("Manage Actions")
                 .tabItem {
                     Image(systemName: "slider.horizontal.2.square.badge.arrow.down")
                 }
