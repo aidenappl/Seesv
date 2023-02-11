@@ -7,6 +7,7 @@
 
 import SwiftUI
 import VisionKit
+import AVFoundation
 
 struct ContentView: View {
     
@@ -57,6 +58,11 @@ struct ContentView: View {
                             case .text(let text):
                                 if text.transcript.contains("Serial") {
                                     let serial = String(text.transcript.split(separator: "Serial")[1].trimmingCharacters(in: .whitespaces))
+                                    Button(action: {
+//                                        TODO Do something
+                                    }) {
+                                        Text("View Device")
+                                    }
                                     Text("DisDaSerial: \(serial)")
                                 } else {
                                     Text(text.transcript)
@@ -85,7 +91,10 @@ struct ContentView: View {
                 }.pickerStyle(.segmented)
                 
                 Toggle("Scan multiple", isOn: $vm.recognizesMultipleItems)
+                
             }.padding(.top)
+            
+            Button(action: {toggleTorch(on: true)}) {Text("Toggle Torch")}
             
             if vm.scanType == .text {
                 Picker("Text content type", selection: $vm.textContentType) {
@@ -97,5 +106,21 @@ struct ContentView: View {
             
             Text(vm.headerText).padding(.top)
         }.padding(.horizontal)
+    }
+    
+    func toggleTorch(on: Bool) {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if on == true {
+                    device.torchMode = .on
+                } else {
+                    device.torchMode = .off
+                }
+            } catch {
+                print("something went wrong when trying to toggle the torch")
+            }
+        }
     }
 }
