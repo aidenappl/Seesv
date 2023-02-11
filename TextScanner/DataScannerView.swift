@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import VisionKit
+import AVFoundation
 
 struct DataScannerView: UIViewControllerRepresentable {
     
@@ -70,5 +71,4 @@ struct DataScannerView: UIViewControllerRepresentable {
             
         
     }
-    
 }

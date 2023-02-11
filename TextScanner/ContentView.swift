@@ -13,12 +13,12 @@ struct ContentView: View {
     
     @EnvironmentObject var vm: AppViewModel
     
+
     private let textContentTypes: [(title: String, textContentType: DataScannerViewController.TextContentType?)] = [
         ("All", .none),
         ("URL", .URL),
         ("Phone", .telephoneNumber),
         ("Email", .emailAddress),
-        ("Address", .fullStreetAddress)
     ]
     
     var body: some View {
@@ -56,30 +56,65 @@ struct ContentView: View {
                             case .barcode(let barcode):
                                 Text(barcode.payloadStringValue ?? "Unknown barcode")
                             case .text(let text):
-                                if text.transcript.contains("Serial") {
-                                    let serial = String(text.transcript.split(separator: "Serial")[1].trimmingCharacters(in: .whitespaces))
+                                let model = processModel(text: text.transcript)
+                                let serial = processSerial(text: text.transcript)
+                                if serial != "" {
+                                    if (model != "") {
+                                        Text("Model: \(model) \nSerial: \(serial)")
+                                    } else {
+                                        Text("Serial: \(serial)")
+                                    }
                                     Button(action: {
-//                                        TODO Do something
                                     }) {
                                         Text("View Device")
+                                            .foregroundColor(.white)
+                                            .frame(minWidth: 0, maxWidth: .infinity)
+                                            .padding()
+                                            .background(Color.blue)
+                                            .cornerRadius(10)
                                     }
-                                    Text("DisDaSerial: \(serial)")
-                                } else {
-                                    Text(text.transcript)
+                                    .frame(minWidth: 0, maxWidth: .infinity)
                                 }
-
-                                
                             @unknown default:
                                 Text("Unknown")
                             }
                         }
-                    }.padding()
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
                 }
             }
         }
         .onChange(of: vm.scanType) { _ in vm.recognizedItems = [] }
         .onChange(of: vm.textContentType) { _ in vm.recognizedItems = [] }
         .onChange(of: vm.recognizesMultipleItems) { _ in vm.recognizedItems = [] }
+    }
+    
+    private func processModel(text: String) -> String {
+        let newlineSplit = text.split(separator: "\n")
+        var finalProduct = ""
+        if (newlineSplit.count > 1) {
+            finalProduct = String(newlineSplit[0])
+            
+            let modelSplit = finalProduct.split(separator: "Model")
+            if (modelSplit.count > 1) {
+                finalProduct = modelSplit[1].trimmingCharacters(in: .whitespaces)
+                return String(finalProduct)
+            }
+        }
+        return ""
+    }
+
+    private func processSerial(text: String) -> String {
+        let serialSplit = text.split(separator: "Serial")
+        var finalProduct = ""
+        if (serialSplit.count > 1) {
+            finalProduct = String(serialSplit[1])
+            finalProduct = finalProduct.replacingOccurrences(of: ":", with: "")
+            finalProduct = finalProduct.trimmingCharacters(in: .whitespaces)
+            return String(finalProduct)
+        }
+        return ""
     }
     
     private var headerView: some View {
@@ -89,12 +124,9 @@ struct ContentView: View {
                     Text("Barcode").tag(ScanType.barcode)
                     Text("Text").tag(ScanType.text)
                 }.pickerStyle(.segmented)
-                
                 Toggle("Scan multiple", isOn: $vm.recognizesMultipleItems)
-                
+                    .padding(.leading, 20)
             }.padding(.top)
-            
-            Button(action: {toggleTorch(on: true)}) {Text("Toggle Torch")}
             
             if vm.scanType == .text {
                 Picker("Text content type", selection: $vm.textContentType) {
@@ -106,21 +138,5 @@ struct ContentView: View {
             
             Text(vm.headerText).padding(.top)
         }.padding(.horizontal)
-    }
-    
-    func toggleTorch(on: Bool) {
-        guard let device = AVCaptureDevice.default(for: .video) else { return }
-        if device.hasTorch {
-            do {
-                try device.lockForConfiguration()
-                if on == true {
-                    device.torchMode = .on
-                } else {
-                    device.torchMode = .off
-                }
-            } catch {
-                print("something went wrong when trying to toggle the torch")
-            }
-        }
     }
 }
