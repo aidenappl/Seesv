@@ -25,6 +25,13 @@ struct ContentView: View {
             Text("Requesting camera access")
         }
     }
+    
+    private var mainView: some View {
+        DataScannerView(
+            recognizedItems: $vm.recognizedItems,
+            recognizedDataType: $vm.recognizedDataType.wrappedValue,
+            recognizesMultipleItems: $vm.recognizesMultipleItems.wrappedValue)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
