@@ -16,6 +16,7 @@ struct DataScannerView: UIViewControllerRepresentable {
     
     let recognizedDataType: DataScannerViewController.RecognizedDataType
     let recognizesMultipleItems: Bool
+    var isScanningPaused: Bool = false
     
     func makeUIViewController(context: Context) -> some DataScannerViewController {
         let vc = DataScannerViewController(
@@ -30,16 +31,22 @@ struct DataScannerView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         uiViewController.delegate = context.coordinator
-        try? uiViewController.startScanning()
+        if !isScanningPaused {
+            try? uiViewController.startScanning()
+        } else {
+            uiViewController.stopScanning()
+        }
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(recognizedItems: $recognizedItems)
     }
     
-//    static func dismantleUIViewController(_ uiViewController: DataScannerViewController, coordinator: Coordinator) {
-//        uiViewController.stopScanning()
-//    }
+    static func dismantleUIViewController(_ uiViewController: DataScannerViewController, coordinator: Coordinator) {
+        DispatchQueue.main.async {
+            uiViewController.stopScanning()
+        }
+    }
     
     class Coordinator: NSObject, DataScannerViewControllerDelegate {
         @Binding var recognizedItems: [RecognizedItem]

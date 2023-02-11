@@ -14,7 +14,7 @@ struct TextScannerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
                 .environmentObject(vm)
                 .task {
                     await vm.requestDataScannerAccessStats()
