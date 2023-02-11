@@ -29,7 +29,7 @@ You will need the following to run the TextScanner:
 
 To install TextScanner, simply clone the repository to your local machine using the following command:
 
-$ git clone https://github.com/aidenappl/TextScanner.git
+`$ git clone https://github.com/aidenappl/TextScanner.git`
 
 
 Next, open the project in Xcode and build it to your device.
