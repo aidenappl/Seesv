@@ -55,7 +55,6 @@ struct DataScannerView: UIViewControllerRepresentable {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             recognizedItems.append(contentsOf: addedItems)
             
-            print("didAddItems \(addedItems)")
         }
         
         func dataScanner(_ dataScanner: DataScannerViewController, didRemove removedItems: [RecognizedItem], allItems: [RecognizedItem]) {
@@ -63,7 +62,6 @@ struct DataScannerView: UIViewControllerRepresentable {
                 !removedItems.contains(where: {$0.id == item.id})
                 
             }
-            print("didRemovedItems \(removedItems)")
         }
         
         func dataScanner(_ dataScanner: DataScannerViewController, becameUnavailableWithError error: DataScannerViewController.ScanningUnavailable) {
