@@ -11,15 +11,15 @@ import AVFoundation
 
 struct ContentView: View {
     
+    @Binding var devices: [Device]
+    
     @EnvironmentObject var vm: AppViewModel
     @State private var showModal = false
     @State private var isScanningPaused: Bool = false
     @State private var showDataScanner: Bool = true
     
-    @State private var foundDevice: Device?
-    @State var devices: [Device] = []
-    
-    var csvStringInput = "Serial Number,Device Name,Model,Checked\nMZX6DQAZ8AYF,iPad,A1980,FALSE\nXZMXUEXYKER9,iPad,A1980,FALSE\nJLPRH2P2ESQ7,iPad,A1980,FALSE\nJB6VPKMB2V47,iPad,A1980,FALSE\nHLX9YQDT7NYF,iPad,A1980,FALSE\nZLC5U2SZXUQU,iPad,A1980,FALSE\nHPC3HASX47FD,iPad,A1980,FALSE\n4PJFLLLN5CCL,iPad,A1980,FALSE\nE8KCLZM9Q4L9,iPad,A1980,FALSE\nERV2J8T6KW2L,iPad,A1980,FALSE\n4NTPRUC8DAJF,iPad,A1980,FALSE\nSBTTP2GMCSD7,iPad,A1980,FALSE\nUYY338C99FUC,iPad,A1980,FALSE\nF5289HVQ33BX,iPad,A1980,FALSE\n5UW6M4ZJCJGG,iPad,A1980,FALSE\n9GV27AWH3JTR,iPad,A1980,FALSE\nPDVVN9YHVSE6,iPad,A1980,FALSE\nWNC5TCMXR8TB,iPad,A1980,FALSE\nZM7MJEKC9BCJ,iPad,A1980,FALSE\nGEGHC87NJRR2,iPad,A1980,FALSE\n8YLUB7TXX74D,iPad,A1980,FALSE\nY4LE5BTYYQMF,iPad,A1980,FALSE\nH2BKWBTCLPLL,iPad,A1980,FALSE\n3D5U6KKWMQXA,iPad,A1980,FALSE\nTFTD43SVNM2E,iPad,A1980,FALSE\nATJRLU2KSN59,iPad,A1980,FALSE\n8SWJUBECJAHB,iPad,A1980,FALSE\nSVVLL5HYH2BL,iPad,A1980,FALSE\n7RQ96Q5667YY,iPad,A1980,FALSE\nL934WPUZTLQG,iPad,A1980,FALSE\n2VXRADKM32TN,iPad,A1980,FALSE\nHH8B2Z5FJDLN,iPad,A1980,FALSE\nXQ4G9XGRB9SF,iPad,A1980,FALSE\n6GE66KKJTJW5,iPad,A1980,FALSE\n4NDAYHPDLKYZ,iPad,A1980,FALSE\nX7K4A9NMVCGM,iPad,A1980,FALSE\n7P2VEEYCPK4X,iPad,A1980,FALSE\nQVT35HKPJ43H,iPad,A1980,FALSE\nNBM89CQTAU45,iPad,A1980,FALSE\nTWDWRC86CRY2,iPad,A1980,FALSE\n7MWAQMBQVELG,iPad,A1980,FALSE\nMV23W7ASDNCT,iPad,A1980,FALSE\nAW5XLPAJJSAH,iPad,A1980,FALSE\nL83MT9JALMFT,iPad,A1980,FALSE\nH5FEYYM2W83M,iPad,A1980,FALSE\n4X8DTAEEF53S,iPad,A1980,FALSE\nG297BXKCTHN6,iPad,A1980,FALSE\n3YET73K6HG8S,iPad,A1980,FALSE\n87TS5JGUQWFN,iPad,A1980,FALSE\n6F76CKHPC5SP,iPad,A1980,FALSE\nW8US5W59SB9U,iPad,A1980,FALSE\nYCYG658TMTVW,iPad,A1980,FALSE\nJFGKXN6UQ835,iPad,A1980,FALSE\n3R3PLP4LFQLZ,iPad,A1980,FALSE\nYEZUFPJKL5PE,iPad,A1980,FALSE\nT4FSJ7KM6RSV,iPad,A1980,FALSE\n6U4HRM9V4FSA,iPad,A1980,FALSE\n9RB456YSWY42,iPad,A1980,FALSE\nPEN4S72ULF2M,iPad,A1980,FALSE\nJCR7TSSP2A3B,iPad,A1980,FALSE\n27EZK8MK3BKL,iPad,A1980,FALSE\nVN5MMRB7PDT8,iPad,A1980,FALSE\nUTW2QV75JQAC,iPad,A1980,FALSE\nB8HAWSUWQVFZ,iPad,A1980,FALSE\n8RHG2LNLGKQF,iPad,A1980,FALSE\nR66LAZG5Q9YB,iPad,A1980,FALSE\n5T28LAY7XVEW,iPad,A1980,FALSE\nZRRPC8WURR28,iPad,A1980,FALSE\n2VELJJ6GMVA7,iPad,A1980,FALSE\n7TTRAYSHWL5A,iPad,A1980,FALSE\nJAAA3ZLSWY86,iPad,A1980,FALSE\n43F6DYHV7MES,iPad,A1980,FALSE\nY7ECTN5QKXT3,iPad,A1980,FALSE\nVPSFMN88JQUB,iPad,A1980,FALSE\nE26E48BBPYKW,iPad,A1980,FALSE\nTT5M7L24R33R,iPad,A1980,FALSE\nVNGSVGNJ5JAH,iPad,A1980,FALSE\n6YX7ZRD4YQVX,iPad,A1980,FALSE\nKDYYAHUFPUZV,iPad,A1980,FALSE\nGLLMCQ524EJE,iPad,A1980,FALSE\nF7533XWAUS6J,iPad,A1980,FALSE\n66K42772NP6S,iPad,A1980,FALSE\n8R9FYQ2QALQN,iPad,A1980,FALSE\n4NXCYDAR4PF3,iPad,A1980,FALSE\nT8WJZYAR95PK,iPad,A1980,FALSE\nKSEYDJJ5C6QK,iPad,A1980,FALSE\nMNWPL4GA5YF8,iPad,A1980,FALSE\nKNBUJYXRYVA5,iPad,A1980,FALSE\nC2TSGR6A6NCB,iPad,A1980,FALSE\nZRD3WPZMD8NP,iPad,A1980,FALSE\nDQKGSZNY72N3,iPad,A1980,FALSE\nW8S4YJZ88XXQ,iPad,A1980,FALSE\nM9R7JCSAA84E,iPad,A1980,FALSE\n7Z25DJHW5LHM,iPad,A1980,FALSE\nRXS6BMNDRJV7,iPad,A1980,FALSE\nRJBJSMDF4LCE,iPad,A1980,FALSE\n3WMWCLVY5JT3,iPad,A1980,FALSE\nE6N6BMJ4EP9B,iPad,A1980,FALSE\nZ3HRS992RJCL,iPad,A1980,FALSE\nDMPZTE6RKD6L,Aiden’s iPad,A1980,FALSE"
+    @State private var foundDevice: Device
+    @State private var permanentDevices: [Device] = []
     
     private let textContentTypes: [(title: String, textContentType: DataScannerViewController.TextContentType?)] = [
         ("All", .none),
@@ -31,9 +31,7 @@ struct ContentView: View {
     var body: some View {
         switch vm.dataScannerAccessStatus {
             case .scannerAvailable:
-                mainView.task{
-                    devices = parseDeviceStr(input: csvStringInput)
-                }
+                mainView
             case .cameraNotAvailable:
                 Text("Could not detect a camera")
             case .scannerNotAvailable:
@@ -93,7 +91,8 @@ struct ContentView: View {
     }
     
     private func processSerial(text: String) -> String {
-        let serialSplit = text.split(separator: "Serial")
+        let textIn = "check \(text)"
+        let serialSplit = textIn.split(separator: "Serial")
         var finalProduct = ""
         if (serialSplit.count > 1) {
             finalProduct = String(serialSplit[1])
@@ -105,7 +104,7 @@ struct ContentView: View {
     }
     
     private var headerView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Picker("Scan Type", selection: $vm.scanType) {
                     Text("Barcode").tag(ScanType.barcode)
@@ -115,12 +114,16 @@ struct ContentView: View {
                     .padding(.leading, 20)
             }.padding(.top)
             
-            if vm.scanType == .text {
-                Picker("Text content type", selection: $vm.textContentType) {
-                    ForEach(textContentTypes, id: \.self.textContentType) { option in
-                        Text(option.title).tag(option.textContentType)
-                    }
-                }.pickerStyle(.segmented)
+            if permanentDevices.count > 0 {
+                Button(action: {
+                    permanentDevices = []
+                }) {
+                    Text("Clear History")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.gray.opacity(0.4))
+                        .cornerRadius(10)
+                }
             }
             
             Text(vm.headerText).padding(.top)
@@ -130,6 +133,23 @@ struct ContentView: View {
     private var resultView: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 16) {
+                ForEach(permanentDevices) { device in
+                    Text("Model: \(device.model) \nSerial: \(device.serialNumber)")
+                    Button(action: {
+                        self.showModal = true;
+                        self.foundDevice = device;
+                        self.isScanningPaused = true;
+                        self.showDataScanner = false;
+                    }) {
+                        Text("View Device")
+                            .foregroundColor(.white)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                }
                 ForEach(vm.recognizedItems) { item in
                     switch item {
                     case .barcode(let barcode):
@@ -138,7 +158,7 @@ struct ContentView: View {
                         let model = processModel(text: text.transcript)
                         let serial = processSerial(text: text.transcript)
                         if serial != "" {
-                            let targetDevice = devices.first(where: { $0.serialNumber == serial })
+                            let targetDevice = findDevice(serial: serial)
                             
                             if (model != "") {
                                 Text("Model: \(model) \nSerial: \(serial)")
@@ -149,12 +169,12 @@ struct ContentView: View {
                             if targetDevice != nil {
                                 Button(action: {
                                     self.showModal = true;
-                                    self.foundDevice = targetDevice;
+                                    self.foundDevice = targetDevice!;
                                     self.isScanningPaused = true;
                                     self.showDataScanner = false;
                                 }) {
                                     Text("View Device")
-                                       
+                                    
                                         .foregroundColor(.white)
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                         .padding()
@@ -184,17 +204,30 @@ struct ContentView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding()
             .sheet(isPresented: $showModal) {
-                if let device = self.foundDevice {
-                    ModalView(device: .constant(device))
-                        .onDisappear {
-                            self.isScanningPaused = false;
-                            self.showDataScanner = true;
-                            vm.recognizedItems = []
-                        }
+                ModalView(device: $foundDevice)
+                    .onDisappear {
+                        self.isScanningPaused = false;
+                        self.showDataScanner = true;
+                        vm.recognizedItems = []
                 }
             }
         }
 
+    }
+    
+    func findDevice(serial: String) -> Device? {
+        print("finding device")
+        let foundDevice: Device? = devices.first(where: { $0.serialNumber == serial })
+        let anyDevice: Any? = foundDevice
+        if anyDevice == nil {
+            return foundDevice
+        }
+        
+        if permanentDevices.firstIndex(where: {$0.serialNumber == foundDevice!.serialNumber}) != nil {
+            return foundDevice
+        }
+        permanentDevices.append(Device(serialNumber: foundDevice!.serialNumber, deviceName: foundDevice!.deviceName, model: foundDevice!.model, checked: foundDevice!.checked))
+        return foundDevice
     }
 }
 
@@ -202,33 +235,33 @@ struct ModalView: View {
     
     @Binding var device: Device
     
+    @State var serialNumber: String = ""
+    
+    init(device: Binding<Device>) {
+        self.device = device.wrappedValue
+        self.serialNumber = device.wrappedValue.serialNumber
+    }
+    
     var body: some View {
-        Text("Device: \(device.deviceName)")
+        
+        GeometryReader { geometry in
+            VStack(alignment: .leading) {
+                HStack(alignment: .center) {
+                    Text("Device: \(device.deviceName)").font(.largeTitle)
+                }
+                TextField(
+                    "Serial Number",
+                    text: $serialNumber
+                )
+            }
+        }
     }
 }
 
-struct Device: Codable {
+struct Device: Codable, Identifiable {
+    var id: String { serialNumber }
     let serialNumber: String
     let deviceName: String
     let model: String
     let checked: Bool
-}
-
-
-func parseDeviceStr(input: String) -> [Device] {
-    let rows = input.split(separator: "\n")
-    var json: [Device] = []
-
-    for row in rows {
-        let columns = row.split(separator: ",")
-        let serialNumber = String(columns[0])
-        let deviceName = String(columns[1])
-        let model = String(columns[2])
-        let checked = columns[3] == "true"
-
-        let device = Device(serialNumber: serialNumber, deviceName: deviceName, model: model, checked: checked)
-        json.append(device)
-    }
-
-    return json
 }
