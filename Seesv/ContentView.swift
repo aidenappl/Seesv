@@ -248,7 +248,7 @@ struct ModalView: View {
     }
 }
 
-struct Device: Codable, Identifiable {
+struct Device: Codable, Identifiable, Hashable {
     var id: String { serialNumber }
     let serialNumber: String
     let deviceName: String

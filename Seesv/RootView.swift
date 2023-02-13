@@ -63,6 +63,7 @@ struct DatasetView: View {
     @Binding var csvInput: String
     
     @State var showFileFinder: Bool = false
+    @State var showPreview: Bool = false
     @State var fileURL: String = ""
     
     var body: some View {
@@ -81,7 +82,7 @@ struct DatasetView: View {
                 }
                 if fileURL != "" {
                     Button(action: {
-                        // do something
+                        showPreview.toggle()
                     }) {
                         Text("Preview CSV")
                             .foregroundColor(.white)
@@ -111,7 +112,51 @@ struct DatasetView: View {
                     print(error.localizedDescription)
                 }
             }
+            .sheet(isPresented: $showPreview) {
+                PreviewCSVView(csvInput: $csvInput)
+            }
         }
+    }
+}
+
+struct PreviewCSVView: View {
+    
+    @Binding var csvInput: String
+    
+    @State private var selection: Device.ID?
+    @State private var path = [Device]()
+    @State private var devices: [Device] = []
+    
+    init(csvInput: String, selection: Device.ID? = nil, path: [Device] = [Device](), devices: [Device]) {
+        self.csvInput = csvInput
+        self.selection = selection
+        self.path = path
+        self.devices = parseDeviceStr(input: csvInput)
+    }
+    
+    var body: some View {
+        NavigationStack(path: $path) {
+            VStack(alignment: .leading) {
+                Text("Devices")
+                    .font(.largeTitle)
+                    .bold()
+                    .padding(.top)
+                Table(devices, selection: $selection){
+                    TableColumn("Device Name", value: \.deviceName)
+                    
+                }
+            }
+//            .padding()
+//            .navigationDestination(for: Device.self) { device in
+//                Text("\(device.serialNumber)")
+//            }
+        }
+//        .onChange(of: selection) { selection in
+//            if let selection = selection,
+//               let device = devices.first(where: {$0.id == selection}) {
+//                path.append(device)
+//            }
+//        }
     }
 }
 

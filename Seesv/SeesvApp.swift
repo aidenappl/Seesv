@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct TextScannerApp: App {
+struct SeesvApp: App {
     
     @StateObject private var vm = AppViewModel()
     
