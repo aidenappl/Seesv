@@ -12,13 +12,13 @@ import AVFoundation
 struct ContentView: View {
     
     @Binding var devices: [Device]
-    
     @EnvironmentObject var vm: AppViewModel
+    
     @State private var showModal = false
     @State private var isScanningPaused: Bool = false
     @State private var showDataScanner: Bool = true
     
-    @State private var foundDevice: Device
+    @State private var foundDevice: Device = Device(serialNumber: "", deviceName: "", model: "", checked: false)
     @State private var permanentDevices: [Device] = []
     
     private let textContentTypes: [(title: String, textContentType: DataScannerViewController.TextContentType?)] = [
@@ -235,24 +235,14 @@ struct ModalView: View {
     
     @Binding var device: Device
     
-    @State var serialNumber: String = ""
-    
-    init(device: Binding<Device>) {
-        self.device = device.wrappedValue
-        self.serialNumber = device.wrappedValue.serialNumber
-    }
-    
     var body: some View {
         
         GeometryReader { geometry in
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     Text("Device: \(device.deviceName)").font(.largeTitle)
+                    
                 }
-                TextField(
-                    "Serial Number",
-                    text: $serialNumber
-                )
             }
         }
     }
