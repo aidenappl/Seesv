@@ -1,6 +1,6 @@
-# TextScanner
+# Seesv
 
-TextScanner is a tool that helps you to easily catalog and manage your Apple devices. With the help of Apple's VisionKit framework, you can quickly scan the serial numbers and model numbers of your devices and compare them against a given dataset. The tool is highly customizable and allows you to configure custom actions and fields to fit your needs.
+Seesv is a tool that helps you to easily catalog and manage your Apple devices. With the help of Apple's VisionKit framework, you can quickly scan the serial numbers and model numbers of your devices and compare them against a given dataset. The tool is highly customizable and allows you to configure custom actions and fields to fit your needs.
 
 **Note:** This tool requires a device that has the neural engine, such as the iPhone 13 or newer.
 
@@ -18,7 +18,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-You will need the following to run the TextScanner:
+You will need the following to run Seesv
 
 - A Mac running macOS
 - Xcode installed
@@ -27,16 +27,16 @@ You will need the following to run the TextScanner:
 
 ### Installation
 
-To install TextScanner, simply clone the repository to your local machine using the following command:
+To install Seesv, simply clone the repository to your local machine using the following command:
 
-`$ git clone https://github.com/aidenappl/TextScanner.git`
+`$ git clone https://github.com/aidenappl/Seesv.git`
 
 
 Next, open the project in Xcode and build it to your device.
 
 ## Usage
 
-To use the TextScanner, simply launch the app on your device and follow the on-screen instructions. The app will guide you through the process of scanning your device's serial number and model number and compare it against a given dataset. You can also configure custom actions and fields to fit your needs.
+To use Seesv, simply launch the app on your device and follow the on-screen instructions. The app will guide you through the process of scanning your device's serial number and model number and compare it against a given dataset. You can also configure custom actions and fields to fit your needs.
 
 In addition, you can import and export device information from and to local files. This can be useful for keeping a backup of your cataloged devices or for transferring your device information to another device.
 
