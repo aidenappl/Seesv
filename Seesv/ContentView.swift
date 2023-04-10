@@ -233,18 +233,65 @@ struct ContentView: View {
 
 struct ModalView: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     @Binding var device: Device
+    @State var isPresentingConfirm = false;
+    @State var changes = false;
+    
+    @State var deviceName = ""
+    @State var deviceSerial = ""
     
     var body: some View {
-        
         GeometryReader { geometry in
             VStack(alignment: .leading) {
+                NavBar(left: {
+                    Button("Dismiss") {
+                        if (changes) {
+                            isPresentingConfirm = true
+                        } else {
+                            dismiss()
+                        }
+                    }
+                    .confirmationDialog("Are you sure?",
+                         isPresented: $isPresentingConfirm) {
+                         Button("Discard", role: .destructive) {
+                           // Do Something
+                          }
+                        }
+                }, center: {
+                    Text("Device")
+                        .frame(maxWidth: .infinity)
+                        .bold()
+                }, right: {
+                    Button("Save") {
+                        // do something
+                    }
+                })
+                .frame(maxWidth: .infinity)
+                .padding([.top], 10)
+                .padding([.bottom], 5)
+                Divider()
                 HStack(alignment: .center) {
-                    Text("Device: \(device.deviceName)").font(.largeTitle)
-                    
+                    VStack(alignment: .leading) {
+                        Text("Device Name")
+                        TextField(
+                            "Device Name",
+                            text: $deviceName
+                        )
+                        .background(Color.gray.opacity(0.1))
+                        
+                    }
                 }
             }
+            .padding([.leading, .trailing], 20)
+            .padding([.top])
         }
+        .onAppear {
+            deviceName = device.deviceName
+//            deviceSerial = device.deviceSerial
+        }
+        .interactiveDismissDisabled(true)
     }
 }
 
@@ -255,3 +302,4 @@ struct Device: Codable, Identifiable, Hashable {
     let model: String
     let checked: Bool
 }
+

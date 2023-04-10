@@ -113,7 +113,7 @@ struct DatasetView: View {
                 }
             }
             .sheet(isPresented: $showPreview) {
-                PreviewCSVView(csvInput: $csvInput)
+                PreviewCSVView(csvInput: csvInput)
             }
         }
     }
@@ -121,18 +121,10 @@ struct DatasetView: View {
 
 struct PreviewCSVView: View {
     
-    @Binding var csvInput: String
-    
+    @State var csvInput: String
     @State private var selection: Device.ID?
     @State private var path = [Device]()
-    @State private var devices: [Device] = []
-    
-    init(csvInput: String, selection: Device.ID? = nil, path: [Device] = [Device](), devices: [Device]) {
-        self.csvInput = csvInput
-        self.selection = selection
-        self.path = path
-        self.devices = parseDeviceStr(input: csvInput)
-    }
+    @State private var devices: [Device] = [Device]()
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -141,22 +133,28 @@ struct PreviewCSVView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding(.top)
-                Table(devices, selection: $selection){
+                Table(devices, selection: $selection) {
                     TableColumn("Device Name", value: \.deviceName)
-                    
                 }
             }
-//            .padding()
-//            .navigationDestination(for: Device.self) { device in
-//                Text("\(device.serialNumber)")
-//            }
+            .padding()
+            .navigationDestination(for: Device.self) { device in
+                Text("\(device.serialNumber)")
+            }
+            .onAppear() {
+                selection = nil
+            }
         }
-//        .onChange(of: selection) { selection in
-//            if let selection = selection,
-//               let device = devices.first(where: {$0.id == selection}) {
-//                path.append(device)
-//            }
-//        }
+        .onChange(of: selection) { selection in
+            if let selection = selection,
+               let device = parseDeviceStr(input: csvInput).first(where: {$0.id == selection}) {
+                path.append(device)
+            }
+        }
+        .onAppear {
+            devices = parseDeviceStr(input: csvInput)
+        }
+        
     }
 }
 
@@ -168,6 +166,9 @@ func parseDeviceStr(input: String) -> [Device] {
         let columns = row.split(separator: ",")
         let serialNumber = String(columns[0])
         let deviceName = String(columns[1])
+        if deviceName == "Device Name" {
+            continue
+        }
         let model = String(columns[2])
         let checked = columns[3] == "true"
 
